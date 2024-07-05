@@ -22,7 +22,7 @@ public class TripRepository : ITripRepository
     {
         var trip = new DbTrip { IdDriver = idDriver, Smoke = smoke, Price = price, Luggage = luggage, 
             PetFriendly = petFriendly, Date = date, DriverMessage = driverMessage, 
-            AirConditioning = airConditioning, CityStartingPoint = cityStartingPoint, CityDestination = cityDestination, PlateNumber = plateNumber};
+            AirConditioning = airConditioning, CityStartingPoint = cityStartingPoint, CityDestination = cityDestination, PlateNumber = plateNumber, Brand = brand, Model = model};
         _context.Trip.Add(trip);
         _context.SaveChanges();
         return trip;
@@ -70,6 +70,8 @@ public class TripRepository : ITripRepository
         tripToUpdate.CityStartingPoint = cityStartingPoint;
         tripToUpdate.CityDestination = cityDestination;
         tripToUpdate.PlateNumber = plateNumber;
+        tripToUpdate.Brand = brand;
+        tripToUpdate.Model = model;
 
         _context.SaveChanges();
         return true;
