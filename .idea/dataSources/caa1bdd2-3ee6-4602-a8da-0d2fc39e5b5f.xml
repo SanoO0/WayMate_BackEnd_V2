@@ -16875,8 +16875,8 @@
     </schema>
     <schema id="5573" parent="5510" name="dbo">
       <Current>1</Current>
-      <IntrospectionTimestamp>2024-07-06.00:17:23.780</IntrospectionTimestamp>
-      <LastIntrospectionLocalTimestamp>2024-07-05.22:17:23</LastIntrospectionLocalTimestamp>
+      <IntrospectionTimestamp>2024-07-06.00:39:57.787</IntrospectionTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-07-05.22:39:57</LastIntrospectionLocalTimestamp>
       <ObjectId>1</ObjectId>
     </schema>
     <schema id="5574" parent="5510" name="guest">
@@ -17018,8 +17018,8 @@
 149575571|||0|select|G
 1787153412|||0|select|G
 1803153469|||0|select|G</Grants>
-      <IntrospectionTimestamp>2024-07-06.00:17:23.180</IntrospectionTimestamp>
-      <LastIntrospectionLocalTimestamp>2024-07-05.22:17:23</LastIntrospectionLocalTimestamp>
+      <IntrospectionTimestamp>2024-07-06.00:39:26.057</IntrospectionTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-07-05.22:39:26</LastIntrospectionLocalTimestamp>
       <ObjectId>1</ObjectId>
       <PermissionsCheckSum>7026290343</PermissionsCheckSum>
     </schema>
@@ -17030,24 +17030,24 @@
       <ObjectId>4</ObjectId>
     </schema>
     <table id="5607" parent="5573" name="booking">
-      <CreatedTimestamp>2024-07-05.13:55:23.570</CreatedTimestamp>
+      <CreatedTimestamp>2024-07-06.00:39:25.790</CreatedTimestamp>
       <DataRetentionPeriod>-1</DataRetentionPeriod>
-      <ModifiedTimestamp>2024-07-05.13:55:23.570</ModifiedTimestamp>
-      <ObjectId>1013578649</ObjectId>
+      <ModifiedTimestamp>2024-07-06.00:39:25.790</ModifiedTimestamp>
+      <ObjectId>1317579732</ObjectId>
       <LobDataSpaceId>0</LobDataSpaceId>
     </table>
     <table id="5608" parent="5573" name="trip">
-      <CreatedTimestamp>2024-07-05.13:55:23.547</CreatedTimestamp>
+      <CreatedTimestamp>2024-07-06.00:39:25.770</CreatedTimestamp>
       <DataRetentionPeriod>-1</DataRetentionPeriod>
-      <ModifiedTimestamp>2024-07-05.13:55:23.570</ModifiedTimestamp>
-      <ObjectId>965578478</ObjectId>
+      <ModifiedTimestamp>2024-07-06.00:39:25.790</ModifiedTimestamp>
+      <ObjectId>1269579561</ObjectId>
       <LobDataSpaceId>0</LobDataSpaceId>
     </table>
     <table id="5609" parent="5573" name="users">
-      <CreatedTimestamp>2024-07-05.13:55:23.517</CreatedTimestamp>
+      <CreatedTimestamp>2024-07-06.00:39:25.753</CreatedTimestamp>
       <DataRetentionPeriod>-1</DataRetentionPeriod>
-      <ModifiedTimestamp>2024-07-05.13:55:23.570</ModifiedTimestamp>
-      <ObjectId>901578250</ObjectId>
+      <ModifiedTimestamp>2024-07-06.00:39:25.790</ModifiedTimestamp>
+      <ObjectId>1205579333</ObjectId>
       <LobDataSpaceId>0</LobDataSpaceId>
     </table>
     <routine id="5610" parent="5604" name="sp_MScleanupmergepublisher">
@@ -17114,7 +17114,7 @@
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <SequenceIdentity>1(1002)</SequenceIdentity>
+      <SequenceIdentity>1(11)</SequenceIdentity>
     </column>
     <column id="5619" parent="5607" name="date">
       <DasType>datetime|0s</DasType>
@@ -17136,27 +17136,27 @@
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <foreign-key id="5623" parent="5607" name="FK__booking__idPasse__3E52440B">
+    <foreign-key id="5623" parent="5607" name="FK__booking__idPasse__5070F446">
       <ColNames>idPassenger</ColNames>
-      <CreatedTimestamp>2024-07-05.13:55:23.570</CreatedTimestamp>
-      <ModifiedTimestamp>2024-07-05.13:55:23.570</ModifiedTimestamp>
+      <CreatedTimestamp>2024-07-06.00:39:25.790</CreatedTimestamp>
+      <ModifiedTimestamp>2024-07-06.00:39:25.790</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>1045578763</ObjectId>
+      <ObjectId>1349579846</ObjectId>
       <RefColNames>id</RefColNames>
-      <RefTableId>901578250</RefTableId>
+      <RefTableId>1205579333</RefTableId>
       <RefTableName>users</RefTableName>
     </foreign-key>
-    <foreign-key id="5624" parent="5607" name="FK__booking__idTrip__3F466844">
+    <foreign-key id="5624" parent="5607" name="FK__booking__idTrip__5165187F">
       <ColNames>idTrip</ColNames>
-      <CreatedTimestamp>2024-07-05.13:55:23.570</CreatedTimestamp>
-      <ModifiedTimestamp>2024-07-05.13:55:23.570</ModifiedTimestamp>
+      <CreatedTimestamp>2024-07-06.00:39:25.790</CreatedTimestamp>
+      <ModifiedTimestamp>2024-07-06.00:39:25.790</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>1061578820</ObjectId>
+      <ObjectId>1365579903</ObjectId>
       <RefColNames>id</RefColNames>
-      <RefTableId>965578478</RefTableId>
+      <RefTableId>1269579561</RefTableId>
       <RefTableName>trip</RefTableName>
     </foreign-key>
-    <index id="5625" parent="5607" name="PK__booking__3213E83FDDCB04E3">
+    <index id="5625" parent="5607" name="PK__booking__3213E83F7C9831F3">
       <Clustering>1</Clustering>
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
@@ -17164,19 +17164,19 @@
       <Unique>1</Unique>
       <PartitionDataSpaceId>1</PartitionDataSpaceId>
     </index>
-    <key id="5626" parent="5607" name="PK__booking__3213E83FDDCB04E3">
-      <CreatedTimestamp>2024-07-05.13:55:23.570</CreatedTimestamp>
-      <ModifiedTimestamp>2024-07-05.13:55:23.570</ModifiedTimestamp>
+    <key id="5626" parent="5607" name="PK__booking__3213E83F7C9831F3">
+      <CreatedTimestamp>2024-07-06.00:39:25.790</CreatedTimestamp>
+      <ModifiedTimestamp>2024-07-06.00:39:25.790</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>1029578706</ObjectId>
+      <ObjectId>1333579789</ObjectId>
       <Primary>1</Primary>
-      <UnderlyingIndexName>PK__booking__3213E83FDDCB04E3</UnderlyingIndexName>
+      <UnderlyingIndexName>PK__booking__3213E83F7C9831F3</UnderlyingIndexName>
     </key>
     <column id="5627" parent="5608" name="id">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <SequenceIdentity>1(1002)</SequenceIdentity>
+      <SequenceIdentity>1(11)</SequenceIdentity>
     </column>
     <column id="5628" parent="5608" name="idDriver">
       <DasType>int|0s</DasType>
@@ -17242,17 +17242,17 @@
       <NotNull>1</NotNull>
       <Position>14</Position>
     </column>
-    <foreign-key id="5641" parent="5608" name="FK__trip__idDriver__3B75D760">
+    <foreign-key id="5641" parent="5608" name="FK__trip__idDriver__4D94879B">
       <ColNames>idDriver</ColNames>
-      <CreatedTimestamp>2024-07-05.13:55:23.547</CreatedTimestamp>
-      <ModifiedTimestamp>2024-07-05.13:55:23.547</ModifiedTimestamp>
+      <CreatedTimestamp>2024-07-06.00:39:25.773</CreatedTimestamp>
+      <ModifiedTimestamp>2024-07-06.00:39:25.773</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>997578592</ObjectId>
+      <ObjectId>1301579675</ObjectId>
       <RefColNames>id</RefColNames>
-      <RefTableId>901578250</RefTableId>
+      <RefTableId>1205579333</RefTableId>
       <RefTableName>users</RefTableName>
     </foreign-key>
-    <index id="5642" parent="5608" name="PK__trip__3213E83F2D66BC22">
+    <index id="5642" parent="5608" name="PK__trip__3213E83F9B0FF76A">
       <Clustering>1</Clustering>
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
@@ -17260,19 +17260,19 @@
       <Unique>1</Unique>
       <PartitionDataSpaceId>1</PartitionDataSpaceId>
     </index>
-    <key id="5643" parent="5608" name="PK__trip__3213E83F2D66BC22">
-      <CreatedTimestamp>2024-07-05.13:55:23.547</CreatedTimestamp>
-      <ModifiedTimestamp>2024-07-05.13:55:23.547</ModifiedTimestamp>
+    <key id="5643" parent="5608" name="PK__trip__3213E83F9B0FF76A">
+      <CreatedTimestamp>2024-07-06.00:39:25.773</CreatedTimestamp>
+      <ModifiedTimestamp>2024-07-06.00:39:25.773</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>981578535</ObjectId>
+      <ObjectId>1285579618</ObjectId>
       <Primary>1</Primary>
-      <UnderlyingIndexName>PK__trip__3213E83F2D66BC22</UnderlyingIndexName>
+      <UnderlyingIndexName>PK__trip__3213E83F9B0FF76A</UnderlyingIndexName>
     </key>
     <column id="5644" parent="5609" name="id">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <SequenceIdentity>1(1002)</SequenceIdentity>
+      <SequenceIdentity>1(12)</SequenceIdentity>
     </column>
     <column id="5645" parent="5609" name="userType">
       <DasType>varchar(10 char)|0s</DasType>
@@ -17303,8 +17303,8 @@
       <DasType>bit|0s</DasType>
       <NotNull>1</NotNull>
       <Position>7</Position>
-      <DefaultConstraintId>949578421</DefaultConstraintId>
-      <DefaultConstraintName>DF__users__isBanned__38996AB5</DefaultConstraintName>
+      <DefaultConstraintId>1253579504</DefaultConstraintId>
+      <DefaultConstraintName>DF__users__isBanned__4AB81AF0</DefaultConstraintName>
     </column>
     <column id="5651" parent="5609" name="phoneNumber">
       <DasType>varchar(16 char)|0s</DasType>
@@ -17325,17 +17325,16 @@
     </column>
     <column id="5655" parent="5609" name="city">
       <DasType>varchar(50 char)|0s</DasType>
-      <NotNull>1</NotNull>
       <Position>12</Position>
     </column>
-    <default id="5656" parent="5609" name="DF__users__isBanned__38996AB5">
+    <default id="5656" parent="5609" name="DF__users__isBanned__4AB81AF0">
       <ColNames>isBanned</ColNames>
       <DefaultExpression>0</DefaultExpression>
-      <ModifiedTimestamp>2024-07-05.13:55:23.520</ModifiedTimestamp>
+      <ModifiedTimestamp>2024-07-06.00:39:25.757</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>949578421</ObjectId>
+      <ObjectId>1253579504</ObjectId>
     </default>
-    <index id="5657" parent="5609" name="PK__users__3213E83F6465DEF6">
+    <index id="5657" parent="5609" name="PK__users__3213E83F4CB087DF">
       <Clustering>1</Clustering>
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
@@ -17343,27 +17342,27 @@
       <Unique>1</Unique>
       <PartitionDataSpaceId>1</PartitionDataSpaceId>
     </index>
-    <index id="5658" parent="5609" name="UQ__users__AB6E616475DA7CAD">
+    <index id="5658" parent="5609" name="UQ__users__AB6E61649465E3E2">
       <ColNames>email</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Position>2</Position>
       <Unique>1</Unique>
       <PartitionDataSpaceId>1</PartitionDataSpaceId>
     </index>
-    <key id="5659" parent="5609" name="PK__users__3213E83F6465DEF6">
-      <CreatedTimestamp>2024-07-05.13:55:23.517</CreatedTimestamp>
-      <ModifiedTimestamp>2024-07-05.13:55:23.517</ModifiedTimestamp>
+    <key id="5659" parent="5609" name="PK__users__3213E83F4CB087DF">
+      <CreatedTimestamp>2024-07-06.00:39:25.753</CreatedTimestamp>
+      <ModifiedTimestamp>2024-07-06.00:39:25.753</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>917578307</ObjectId>
+      <ObjectId>1221579390</ObjectId>
       <Primary>1</Primary>
-      <UnderlyingIndexName>PK__users__3213E83F6465DEF6</UnderlyingIndexName>
+      <UnderlyingIndexName>PK__users__3213E83F4CB087DF</UnderlyingIndexName>
     </key>
-    <key id="5660" parent="5609" name="UQ__users__AB6E616475DA7CAD">
-      <CreatedTimestamp>2024-07-05.13:55:23.520</CreatedTimestamp>
-      <ModifiedTimestamp>2024-07-05.13:55:23.520</ModifiedTimestamp>
+    <key id="5660" parent="5609" name="UQ__users__AB6E61649465E3E2">
+      <CreatedTimestamp>2024-07-06.00:39:25.753</CreatedTimestamp>
+      <ModifiedTimestamp>2024-07-06.00:39:25.753</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>933578364</ObjectId>
-      <UnderlyingIndexName>UQ__users__AB6E616475DA7CAD</UnderlyingIndexName>
+      <ObjectId>1237579447</ObjectId>
+      <UnderlyingIndexName>UQ__users__AB6E61649465E3E2</UnderlyingIndexName>
     </key>
     <column id="5661" parent="5612" name="optname">
       <DasType>sysname|0s</DasType>
@@ -17628,19 +17627,19 @@
       <Position>6</Position>
     </column>
     <partition id="5716" parent="5625">
-      <ObjectId>72057594045923328</ObjectId>
+      <ObjectId>72057594046185472</ObjectId>
       <Position>1</Position>
     </partition>
     <partition id="5717" parent="5642">
-      <ObjectId>72057594045857792</ObjectId>
+      <ObjectId>72057594046119936</ObjectId>
       <Position>1</Position>
     </partition>
     <partition id="5718" parent="5657">
-      <ObjectId>72057594045726720</ObjectId>
+      <ObjectId>72057594045988864</ObjectId>
       <Position>1</Position>
     </partition>
     <partition id="5719" parent="5658">
-      <ObjectId>72057594045792256</ObjectId>
+      <ObjectId>72057594046054400</ObjectId>
       <Position>1</Position>
     </partition>
   </database-model>
