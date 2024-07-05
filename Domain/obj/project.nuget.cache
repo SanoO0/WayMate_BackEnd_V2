@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "7pJcqejZkSG4Xa3zdAuTOmJU/tpy4TsTpLHf9kJue3lQJ0CjmXArxAv+RV1H8IxVOIP6DhPgvzF5k6Xc1wA8IQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mathi\\Documents\\GitHub\\WayMate_BackEnd_V2\\Domain\\Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mathi\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.28\\microsoft.netcore.app.ref.6.0.28.nupkg.sha512",
+    "C:\\Users\\mathi\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.28\\microsoft.windowsdesktop.app.ref.6.0.28.nupkg.sha512",
+    "C:\\Users\\mathi\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.28\\microsoft.aspnetcore.app.ref.6.0.28.nupkg.sha512"
+  ],
+  "logs": []
+}
