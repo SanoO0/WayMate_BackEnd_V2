@@ -11,8 +11,8 @@ public class DbTrip
     public DateTime Date { get; set; }
     public string DriverMessage { get; set; }
     public bool AirConditioning { get; set; }
-    public int CityStartingPoint  { get; set; }
-    public int CityDestination  { get; set; }
+    public string CityStartingPoint  { get; set; }
+    public string CityDestination  { get; set; }
     public string PlateNumber  { get; set; }
     public string Brand { get; set; }
     public string Model { get; set; }

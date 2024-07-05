@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <Folder Include="Ef\Booking\" />
-      <Folder Include="Ef\Trip\" />
     </ItemGroup>
 
     <ItemGroup>
