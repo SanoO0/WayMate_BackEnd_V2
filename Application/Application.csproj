@@ -15,4 +15,11 @@
       <PackageReference Include="System.Text.Json" Version="8.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="UseCases\Authentication\" />
+      <Folder Include="UseCases\Booking\" />
+      <Folder Include="UseCases\Trip\" />
+      <Folder Include="UseCases\Users\" />
+    </ItemGroup>
+
 </Project>
