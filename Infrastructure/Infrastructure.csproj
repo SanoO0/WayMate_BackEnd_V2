@@ -9,7 +9,6 @@
     <ItemGroup>
       <Folder Include="Ef\Booking\" />
       <Folder Include="Ef\Trip\" />
-      <Folder Include="Ef\Users\Passenger\" />
       <Folder Include="Ef\Users\User\" />
     </ItemGroup>
 
