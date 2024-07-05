@@ -1,4 +1,5 @@
 ﻿using Domain.Enums;
+using Infrastructure.Ef.Authentication;
 using Infrastructure.Ef.DbEntities;
 
 namespace Infrastructure.Ef.Users.Driver;
@@ -6,10 +7,12 @@ namespace Infrastructure.Ef.Users.Driver;
 public class DriverRepository : IDriverRepository
 {
     private readonly WaymateContext _context;
+    private readonly IPasswordHasher _passwordHasher;
 
-    public DriverRepository(WaymateContext context)
+    public DriverRepository(WaymateContext context, IPasswordHasher passwordHasher)
     {
         _context = context;
+        _passwordHasher = passwordHasher;
     }
 
     public DbUser CreateDriver(string username, string password, string email, DateTime birthdate, bool isbanned,
@@ -18,7 +21,7 @@ public class DriverRepository : IDriverRepository
         var newDriver = new DbUser {
             Username = username,
             UserType = UserType.Driver.ToString(),
-            Password = password,
+            Password = _passwordHasher.HashPwd(password),
             Email = email,
             BirthDate = birthdate,
             IsBanned = isbanned,

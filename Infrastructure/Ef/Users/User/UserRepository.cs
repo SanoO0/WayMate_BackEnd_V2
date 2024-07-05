@@ -1,4 +1,5 @@
 ﻿using Domain.Enums;
+using Infrastructure.Ef.Authentication;
 using Infrastructure.Ef.DbEntities;
 
 namespace Infrastructure.Ef.Users.User;
@@ -6,10 +7,12 @@ namespace Infrastructure.Ef.Users.User;
 public class UserRepository : IUserRepository
 {
     private readonly WaymateContext _context;
+    private readonly IPasswordHasher _passwordHasher;
 
-    public UserRepository(WaymateContext context)
+    public UserRepository(WaymateContext context, IPasswordHasher passwordHasher)
     {
         _context = context;
+        _passwordHasher = passwordHasher;
     }
 
     public IEnumerable<DbUser> FetchAll()
@@ -37,7 +40,7 @@ public class UserRepository : IUserRepository
         var user = new DbUser {
             Username = username,
             UserType = UserType.User.ToString(),
-            Password = password,
+            Password = _passwordHasher.HashPwd(password),
             Email = email,
             BirthDate = birthdate,
             IsBanned = isbanned,
@@ -60,7 +63,7 @@ public class UserRepository : IUserRepository
         
         userToUpdate.Username = username;
         userToUpdate.UserType = UserType.User.ToString();
-        userToUpdate.Password = password;
+        userToUpdate.Password = _passwordHasher.HashPwd(password);
         userToUpdate.Email = email;
         userToUpdate.BirthDate = birthdate;
         userToUpdate.IsBanned = isbanned;
