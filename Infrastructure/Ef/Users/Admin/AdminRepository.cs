@@ -1,14 +1,17 @@
 ﻿using Domain.Enums;
+using Infrastructure.Ef.Authentication;
 using Infrastructure.Ef.DbEntities;
 
 namespace Infrastructure.Ef.Users.Admin;
 
 public class AdminRepository : IAdminRepository {
     private readonly WaymateContext _context;
+    private readonly IPasswordHasher _passwordHasher;
 
-    public AdminRepository(WaymateContext context)
+    public AdminRepository(WaymateContext context, IPasswordHasher passwordHasher)
     {
         _context = context;
+        _passwordHasher = passwordHasher;
     }
     
     public DbUser CreateAdmin(string username, string password, string email, DateTime birthdate, bool isBanned,
@@ -18,7 +21,7 @@ public class AdminRepository : IAdminRepository {
         {
             Username = username,
             UserType = UserType.Admin.ToString(),
-            Password = password,
+            Password =  _passwordHasher.HashPwd(password),
             Email = email,
             BirthDate = birthdate,
             IsBanned = isBanned,

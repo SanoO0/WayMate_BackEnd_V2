@@ -1,4 +1,5 @@
 ﻿using Domain.Enums;
+using Infrastructure.Ef.Authentication;
 using Infrastructure.Ef.DbEntities;
 
 namespace Infrastructure.Ef.Users.Passenger;
@@ -6,10 +7,12 @@ namespace Infrastructure.Ef.Users.Passenger;
 public class PassengerRepository : IPassengerRepository
 {
     private readonly WaymateContext _context;
+    private readonly IPasswordHasher _passwordHasher;
 
-    public PassengerRepository(WaymateContext context)
+    public PassengerRepository(WaymateContext context, IPasswordHasher passwordHasher)
     {
         _context = context;
+        _passwordHasher = passwordHasher;
     }
 
     public DbUser CreatePassenger(string username, string password, string email, DateTime birthdate, bool isbanned,
@@ -18,7 +21,7 @@ public class PassengerRepository : IPassengerRepository
         var newPassenger = new DbUser {
             Username = username,
             UserType = UserType.Passenger.ToString(),
-            Password = password,
+            Password = _passwordHasher.HashPwd(password),
             Email = email,
             BirthDate = birthdate,
             IsBanned = isbanned,
