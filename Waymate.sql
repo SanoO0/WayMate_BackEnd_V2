@@ -15,7 +15,7 @@ CREATE TABLE users (
     lastName VARCHAR(50),
     firstName VARCHAR(50),
     gender VARCHAR(20),
-    city VARCHAR(50) NOT NULL
+    city VARCHAR(50)
 );
 GO
 -- Creating the 'trip' table
