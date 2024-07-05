@@ -17,7 +17,9 @@
 
     <ItemGroup>
       <Folder Include="UseCases\Authentication\" />
-      <Folder Include="UseCases\Users\" />
+      <Folder Include="UseCases\Users\Driver\" />
+      <Folder Include="UseCases\Users\Passenger\" />
+      <Folder Include="UseCases\Users\User\" />
     </ItemGroup>
 
     <ItemGroup>
