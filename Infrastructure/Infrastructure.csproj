@@ -6,4 +6,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Ef\Booking\" />
+      <Folder Include="Ef\Trip\" />
+      <Folder Include="Ef\Users\" />
+    </ItemGroup>
+
 </Project>
