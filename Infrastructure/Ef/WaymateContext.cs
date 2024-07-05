@@ -9,7 +9,7 @@ public class WaymateContext : DbContext
     {
     }
     
-    public DbSet<DbUser> User { get; set; }
+    public DbSet<DbUser> Users { get; set; }
     public DbSet<DbTrip> Trip { get; set; }
     public DbSet<DbBooking> Booking { get; set; }
 

@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a236b219-eea5-4d62-b117-2dee546027af" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Ef/WaymateContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Ef/WaymateContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastructure/Ef/Users/Admin/IAdminRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Infrastructure.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
