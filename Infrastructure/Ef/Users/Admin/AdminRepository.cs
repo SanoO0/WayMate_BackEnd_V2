@@ -6,22 +6,17 @@ namespace Infrastructure.Ef.Users.Admin;
 
 public class AdminRepository : IAdminRepository {
     private readonly WaymateContext _context;
-    private readonly IPasswordHasher _passwordHasher;
 
-    public AdminRepository(WaymateContext context, IPasswordHasher passwordHasher)
-    {
+    public AdminRepository(WaymateContext context) {
         _context = context;
-        _passwordHasher = passwordHasher;
     }
     
     public DbUser CreateAdmin(string username, string password, string email, DateTime birthdate, bool isBanned,
-        string phoneNumber)
-    {
-        var newAdmin = new DbUser
-        {
+        string phoneNumber) {
+        var newAdmin = new DbUser {
             Username = username,
             UserType = UserType.Admin.ToString(),
-            Password =  _passwordHasher.HashPwd(password),
+            Password =  PasswordHasher.HashPassword(password),
             Email = email,
             BirthDate = birthdate,
             IsBanned = isBanned,
@@ -33,13 +28,12 @@ public class AdminRepository : IAdminRepository {
     }
 
     public DbUser UpdateAdmin(int id, string username, string password, string email, DateTime birthDate, bool isBanned,
-        string phoneNumber)
-    {
+        string phoneNumber) {
         var adminToUpdate = _context.Users.FirstOrDefault(u => u.Id == id);
         if (adminToUpdate == null) throw new KeyNotFoundException($"Admin with id {id} has not been found");
 
         adminToUpdate.Username = username;
-        adminToUpdate.Password = password;
+        adminToUpdate.Password = PasswordHasher.HashPassword(password);
         adminToUpdate.Email = email;
         adminToUpdate.BirthDate = birthDate;
         adminToUpdate.IsBanned = isBanned;

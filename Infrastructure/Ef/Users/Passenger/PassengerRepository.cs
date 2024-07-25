@@ -4,24 +4,19 @@ using Infrastructure.Ef.DbEntities;
 
 namespace Infrastructure.Ef.Users.Passenger;
 
-public class PassengerRepository : IPassengerRepository
-{
+public class PassengerRepository : IPassengerRepository {
     private readonly WaymateContext _context;
-    private readonly IPasswordHasher _passwordHasher;
 
-    public PassengerRepository(WaymateContext context, IPasswordHasher passwordHasher)
-    {
+    public PassengerRepository(WaymateContext context) {
         _context = context;
-        _passwordHasher = passwordHasher;
     }
 
     public DbUser CreatePassenger(string username, string password, string email, DateTime birthdate, bool isbanned,
-        string phoneNumber, string lastName, string firstName, string gender, string city)
-    {
+        string phoneNumber, string lastName, string firstName, string gender, string city) {
         var newPassenger = new DbUser {
             Username = username,
             UserType = UserType.Passenger.ToString(),
-            Password = _passwordHasher.HashPwd(password),
+            Password = PasswordHasher.HashPassword(password),
             Email = email,
             BirthDate = birthdate,
             IsBanned = isbanned,
@@ -37,14 +32,13 @@ public class PassengerRepository : IPassengerRepository
     }
 
     public DbUser UpdatePassenger(int id, string username, string password, string email, DateTime birthdate, bool isbanned,
-        string phoneNumber, string lastName, string firstName, string gender, string city)
-    {
+        string phoneNumber, string lastName, string firstName, string gender, string city) {
         var passengerToUpdate = _context.Users.FirstOrDefault(u => u.Id == id);
 
         if (passengerToUpdate == null) throw new KeyNotFoundException($"Passenger with id {id} has not been found.");
 
         passengerToUpdate.Username = username;
-        passengerToUpdate.Password = password;
+        passengerToUpdate.Password = PasswordHasher.HashPassword(password);
         passengerToUpdate.Email = email;
         passengerToUpdate.BirthDate = birthdate;
         passengerToUpdate.IsBanned = isbanned;

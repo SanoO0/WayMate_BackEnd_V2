@@ -1,12 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
-using Application.Services.TokenJWT;
-using Application.Services.TokenJWT.dto;
+﻿using Application.Services.TokenJWT;
 using Application.UseCases.Authentication;
 using Application.UseCases.Authentication.Dtos;
-using Application.UseCases.Users.Passenger;
-using Application.UseCases.Users.Passenger.Dto;
-using Application.UseCases.Users.User;
+using Infrastructure.Ef.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,168 +13,110 @@ public class AuthenticationController : ControllerBase
 {
     private readonly IConfiguration _configuration;
     private readonly TokenService _tokenService;
-    private readonly UseCaseCreatePassenger _useCaseCreatePassenger;
     private readonly UseCaseLogin _useCaseLogin;
-    private readonly UseCaseRegistrationEmail _useCaseRegistrationEmail;
-    private readonly UseCaseRegistrationUsername _useCaseRegistrationUsername;
-    private readonly UseCaseFetchUserByEmail _userCaseFetchUserByEmail;
 
-    public AuthenticationController(UseCaseLogin useCaseLogin, UseCaseRegistrationEmail useCaseRegistrationEmail,
-        UseCaseRegistrationUsername useCaseRegistrationUsername, TokenService tokenService,
-        IConfiguration configuration, UseCaseFetchUserByEmail userCaseFetchUserByEmail,
-        UseCaseCreatePassenger useCaseCreatePassenger)
-    {
-        _useCaseLogin = useCaseLogin;
-        _useCaseRegistrationEmail = useCaseRegistrationEmail;
-        _useCaseRegistrationUsername = useCaseRegistrationUsername;
-        _tokenService = tokenService;
-        _configuration = configuration;
-        _userCaseFetchUserByEmail = userCaseFetchUserByEmail;
-        _useCaseCreatePassenger = useCaseCreatePassenger;
+    // Constructor to initialize the dependencies of the AuthenticationController.
+    public AuthenticationController(UseCaseLogin useCaseLogin, TokenService tokenService, IConfiguration configuration) {
+        _useCaseLogin = useCaseLogin; // Initialize the use case for user login.
+        _tokenService = tokenService; // Initialize the token service for generating and validating tokens.
+        _configuration = configuration; // Initialize the configuration for accessing settings.
     }
-
-    [AllowAnonymous]
-    [HttpGet("login")]
+    
+    // Retrieve the connected user's ID and UserType from the JWT token in the cookie.
+    private (string Id, string UserType) GetConnectedUserStatus() {
+        // Get the token from the cookie
+        var token = HttpContext.Request.Cookies[_configuration["JwtSettings:CookieName"]!]!;
+        // Extract user data from the token
+        return _tokenService.GetAuthCookieData(token);
+    }
+    
+    [HttpGet("isConnected")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<DtoOutputToken> Login([FromQuery] [Required] string email,
-        [FromQuery] [Required] string password)
-    {
-        try
-        {
-            var authResult = _useCaseLogin.Execute(email, password);
-            if (!authResult.isLogged) return BadRequest("Wrong credentials");
-            return Ok(GenerateAndSetToken(new DtoInputToken
-                { username = authResult.username, userType = authResult.usertype }));
-        }
-        catch (KeyNotFoundException e)
-        {
-            return NotFound(new
-            {
-                e.Message
-            });
-        }
-    }
-
-    [AllowAnonymous]
-    [HttpPost("registration")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    public ActionResult<DtoOutputPassenger> Registration(DtoInputCreatePassenger dto)
-    {
-        var registrationResult = _useCaseCreatePassenger.Execute(dto);
-        GenerateAndSetToken(new DtoInputToken
-            { username = registrationResult.Username, userType = registrationResult.UserType });
-        return Ok(registrationResult);
-    }
-
-    [AllowAnonymous]
-    [HttpPost("generationToken")]
-    public DtoOutputToken GenerateAndSetToken(DtoInputToken dto)
-    {
-        var token = _tokenService.BuildToken(_configuration["JWT:Key"], _configuration["JWT:Issuer"], dto);
-        HttpContext.Response.Cookies.Append("WayMateToken", token, new CookieOptions
-        {
-            Secure = true,
-            HttpOnly = true,
-            SameSite = SameSiteMode.None,
-            MaxAge = TimeSpan.FromHours(2),
-            IsEssential = true
-        });
-
-        return new DtoOutputToken
-        {
-            token = token
-        };
-    }
-
-    [HttpGet(
-        "registration/by-email/{email:regex(^[[a-z0-9]]+(?:.[[a-z0-9]]+)*@(?:[[a-z0-9]](?:[[a-z0-9-]]*[[a-z0-9]])?.)+[[a-z0-9]](?:[[a-z0-9-]]*[[a-z0-9]])?$)}")]
-    [ProducesResponseTypeAttribute(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<DtoOutputRegistration> FetchByEmail(string email)
-    {
-        return _useCaseRegistrationEmail.Execute(email);
-    }
-
-    [HttpGet("registration/by-username/{username:regex(^[[a-zA-Z0-9_-]]{{5,20}}$)}")]
-    [ProducesResponseTypeAttribute(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<DtoOutputRegistration> FetchByUsername(string username)
-    {
-        return _useCaseRegistrationUsername.Execute(username);
-    }
-
-
-    [HttpGet("IsConnected")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [Authorize]
-    public ActionResult IsConnected()
-    {
-        return Ok();
+    public IActionResult IsConnected() {
+        // Simply return 200 OK if the user is authorized
+        return Ok(StatusCodes.Status200OK);
     }
-
-    [HttpGet("TestConnectionPassenger")]
-    [Authorize(Roles = "Passenger")]
-    public ActionResult TestConnectionPassenger()
-    {
-        var identityName = User.Identity?.Name;
-        Console.Write(identityName);
-        return Ok(new
-        {
-            text = "Ok"
-        });
+    
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public IActionResult GetUserIdAndRole() {
+        try {
+            // Retrieve the connected user status
+            var status = GetConnectedUserStatus();
+            // Return user ID and role
+            return Ok(new { Id = status.Id, UserType = status.UserType });
+        }
+        catch (Exception) {
+            // Return 401 Unauthorized if an exception occurs
+            return Unauthorized();
+        }
     }
-
-    [HttpGet("TestConnectionDriver")]
-    [Authorize(Roles = "Driver")]
-    public ActionResult TestConnectionDriver()
-    {
-        var identityName = User.Identity?.Name;
-        Console.Write(identityName);
-        return Ok(new
-        {
-            text = "Ok"
-        });
+    
+    [HttpPost("signIn")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [AllowAnonymous]
+    public IActionResult UserSignIn([FromBody] DtoInputUserSignIn inputUserSignIn) {
+        try {
+            // Execute login use case to get user data
+            var dtoUser = _useCaseLogin.Execute(inputUserSignIn.Email);
+            // Verify the provided password against the stored hash
+            if (!PasswordHasher.VerifyPassword(inputUserSignIn.Password, dtoUser.Password)) return NotFound();
+            // Generate a JWT token and set it in a cookie
+            if (!GenerateToken(dtoUser.Id, dtoUser.UserType.ToString(), !inputUserSignIn.Logged)) return NotFound();
+            return Ok();
+        }
+        catch (Exception e) {
+            // Return a 500 error if an exception occurs
+            return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+        }
     }
-
-    [HttpGet("TestConnectionAdmin")]
-    [Authorize(Roles = "Admin")]
-    public ActionResult TestConnectionAdmin()
-    {
-        var identityName = User.Identity?.Name;
-        Console.Write(identityName);
-        return Ok(new
-        {
-            text = "Ok"
-        });
-    }
-
-
-    [HttpGet("getUsername")]
+    
+    [HttpPost("signOut")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Authorize]
-    public ActionResult<DtoOutputUsername> GetUsername()
-    {
-        var identity = HttpContext.User.Identity as ClaimsIdentity;
-        if (identity == null) return BadRequest();
-
-        var usernameClaim = identity.FindFirst(ClaimTypes.Name);
-        if (usernameClaim == null) return BadRequest(new { message = "Username not found in the token." });
-
-        return Ok(new DtoOutputUsername { username = usernameClaim?.Value });
+    public IActionResult UserSignOut() {
+        try {
+            // Delete the cookie if it exists
+            if (Request.Cookies.ContainsKey(_configuration["JwtSettings:CookieName"]!)) {
+                Response.Cookies.Delete(_configuration["JwtSettings:CookieName"]!);
+            }
+            return Ok();
+        }
+        catch (Exception) {
+            // Return a 500 error if an exception occurs
+            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while logging out the user.");
+        }
     }
-
-
-    [HttpPost("logout")]
-    public IActionResult Logout()
-    {
-        Response.Cookies.Delete("WayMateToken", new CookieOptions
-        {
-            Secure = true,
-            HttpOnly = true,
-            SameSite = SameSiteMode.None,
-            MaxAge = TimeSpan.FromHours(-1),
-            IsEssential = true
-        });
-
-        return Ok(new { message = "Logout successful" });
+    
+    // Generates a JWT token and stores it in a secure cookie.
+    private bool GenerateToken(string login, string role, bool isSessionOnly) {
+        try {
+            // Create the JWT token with user information.
+            var tokenValue = _tokenService.GenerateJwtToken(login, role, isSessionOnly);
+            // Configure the cookie options.
+            var cookieOptions = new CookieOptions {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None
+            };
+            // Set the cookie expiration if it is not session-only.
+            if (!isSessionOnly) {
+                cookieOptions.Expires = DateTimeOffset.UtcNow.AddHours(int.Parse(_configuration["JwtSettings:ValidityHours"]!));
+            }
+            // Add the cookie to the response.
+            Response.Cookies.Append("WaymateSession", tokenValue, cookieOptions);
+            return true;
+        }
+        catch (Exception) {
+            // Return false in case of an error.
+            return false;
+        }
     }
 }

@@ -2,7 +2,7 @@
 
 public class DtoOutputLogin
 {
-    public bool isLogged { get; set; }
-    public string username { get; set; }
-    public string usertype { get; set; }
+    public string Id { get; set; }
+    public string Password { get; set; }
+    public string UserType { get; set; }
 }

@@ -44,5 +44,9 @@ public class Mapper : Profile
         //Authentication
         CreateMap<bool, DtoOutputLogin>();
         CreateMap<bool, DtoOutputRegistration>();
+        CreateMap<DbUser, DtoInputUserSignIn>();
+        CreateMap<DbUser, DtoOutputLogin>();
+        
+
     }
 }

@@ -4,24 +4,19 @@ using Infrastructure.Ef.DbEntities;
 
 namespace Infrastructure.Ef.Users.Driver;
 
-public class DriverRepository : IDriverRepository
-{
+public class DriverRepository : IDriverRepository {
     private readonly WaymateContext _context;
-    private readonly IPasswordHasher _passwordHasher;
 
-    public DriverRepository(WaymateContext context, IPasswordHasher passwordHasher)
-    {
+    public DriverRepository(WaymateContext context) {
         _context = context;
-        _passwordHasher = passwordHasher;
     }
 
     public DbUser CreateDriver(string username, string password, string email, DateTime birthdate, bool isbanned,
-        string phoneNumber, string lastName, string firstName, string gender, string city)
-    {
+        string phoneNumber, string lastName, string firstName, string gender, string city) {
         var newDriver = new DbUser {
             Username = username,
             UserType = UserType.Driver.ToString(),
-            Password = _passwordHasher.HashPwd(password),
+            Password = PasswordHasher.HashPassword(password),
             Email = email,
             BirthDate = birthdate,
             IsBanned = isbanned,
@@ -37,14 +32,13 @@ public class DriverRepository : IDriverRepository
     }
 
     public DbUser UpdateDriver(int id, string username, string password, string email, DateTime birthdate, bool isbanned,
-        string phoneNumber, string lastName, string firstName, string gender, string city)
-    {
+        string phoneNumber, string lastName, string firstName, string gender, string city) {
         var driverToUpdate = _context.Users.FirstOrDefault(u => u.Id == id);
 
         if (driverToUpdate == null) throw new KeyNotFoundException($"Driver with id {id} has not been found.");
 
         driverToUpdate.Username = username;
-        driverToUpdate.Password = password;
+        driverToUpdate.Password = PasswordHasher.HashPassword(password);
         driverToUpdate.Email = email;
         driverToUpdate.BirthDate = birthdate;
         driverToUpdate.IsBanned = isbanned;

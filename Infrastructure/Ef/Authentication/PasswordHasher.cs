@@ -1,15 +1,16 @@
 ﻿namespace Infrastructure.Ef.Authentication;
 
-public class PasswordHasher : IPasswordHasher {
-    private const int Cost = 12;
-
-
-    public string HashPwd(string pwd) {
-        return BCrypt.Net.BCrypt.HashPassword(pwd, workFactor: Cost);
+public class PasswordHasher
+{
+    // Hashes a plain text password using BCrypt.
+    public static string HashPassword(string password)
+    {
+        return BCrypt.Net.BCrypt.HashPassword(password);
     }
-
-    public bool VerifyPwd(string hashedPwd, string inputPwd) {
-        if (string.IsNullOrWhiteSpace(hashedPwd) || string.IsNullOrWhiteSpace(inputPwd)) return false;
-        return BCrypt.Net.BCrypt.Verify(inputPwd, hashedPwd);
+   
+    // Verifies a plain text password against a hashed password using BCrypt.
+    public static bool VerifyPassword(string password, string hashedPassword)
+    {
+        return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
     }
 }

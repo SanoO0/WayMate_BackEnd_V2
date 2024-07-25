@@ -22,12 +22,19 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Read Config Files
+var configs = new ConfigurationBuilder()
+    .SetBasePath(builder.Environment.ContentRootPath)
+    .AddJsonFile("appsettings.Development.json")
+    .Build();
 
+// Add services to the container.
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddAutoMapper(typeof(Mapper));
 
 builder.Services.AddDbContext<WaymateContext>(a => a.UseSqlServer(
@@ -41,7 +48,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IPassengerRepository, PassengerRepository>();
 builder.Services.AddScoped<IDriverRepository, DriverRepository>();
-builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<PasswordHasher>();
 
 //Token
 builder.Services.AddScoped<TokenService>();
@@ -86,29 +93,45 @@ builder.Services.AddScoped<UseCaseRegistrationEmail>();
 builder.Services.AddScoped<UseCaseRegistrationUsername>();
 
 //JWT configuration
-var jwtKey = builder.Configuration.GetSection("JWT:Key").Get<string>();
+builder.Services.AddAuthorization();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options => {
-        options.TokenValidationParameters = new TokenValidationParameters {
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options => 
+    {
+        options.TokenValidationParameters = new TokenValidationParameters 
+        {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["JWT:Issuer"],
-            ValidAudience = builder.Configuration["JWT:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+            ValidAudience = builder.Configuration["JwtSettings:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configs["JwtSettings:SecretKey"]!))
         };
         options.Events = new JwtBearerEvents {
-            OnTokenValidated = context =>{
-                return Task.CompletedTask;
-            },
-            OnMessageReceived = context => {
-                context.Token = context.Request.Cookies["WayMateToken"];
+           OnMessageReceived = context =>
+           {
+               var token = context.Request.Cookies[configs["JwtSettings:CookieName"]!];
+               if (string.IsNullOrEmpty(token)) return Task.CompletedTask;
+                context.Token = token;
                 return Task.CompletedTask;
             }
         };
     });
+
+// Initialize Loggers
+builder.Services.AddLogging(b =>
+{
+    b.AddConsole();
+    b.AddDebug();
+});
+
+//SignalR
+builder.Services.AddSignalR();
 
 builder.Services.AddCors(options => {
     options.AddPolicy("Dev", policyBuilder =>
@@ -127,11 +150,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
 app.UseCors("Dev");
-
 app.UseAuthentication();
+app.UseRouting();
+
 app.UseAuthorization();
 
 app.MapControllers();

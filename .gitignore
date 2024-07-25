@@ -17,6 +17,10 @@
 # Ignore les dossiers bin et obj dans tous les répertoires de projets
 **/bin/
 **/obj/
+/Api/obj
+/Application/obj
+/Domain/obj
+/Infrastructure/obj
 
 # Build results
 [Dd]ebug/
