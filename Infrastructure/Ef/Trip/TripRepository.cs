@@ -76,4 +76,13 @@ public class TripRepository : ITripRepository
         _context.SaveChanges();
         return true;
     }
+
+    public IEnumerable<DbTrip> FetchTripByFilter(int idDriver, string nameFilter, int userCount)
+    {
+        return _context.Trip
+            .Where(trip => Equals(trip.IdDriver, idDriver))
+            .AsEnumerable()
+            .Reverse()
+            .Take(userCount);
+    }
 }

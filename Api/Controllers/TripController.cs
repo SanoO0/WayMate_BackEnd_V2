@@ -1,4 +1,5 @@
-﻿using Application.UseCases.Trip;
+﻿using Application.Services.TokenJWT;
+using Application.UseCases.Trip;
 using Application.UseCases.Trip.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,18 +14,26 @@ public class TripController : ControllerBase
     private readonly UseCaseFetchTripById _useCaseFetchTripById;
     private readonly UseCaseDeleteTrip _useCaseDeleteTrip;
     private readonly UseCaseUpdateTrip _useCaseUpdateTrip;
+    private readonly UseCaseFetchTripByFilter _useCaseFetchTripByFilter;
+    private readonly IConfiguration _configuration;
+    private readonly TokenService _tokenService;
 
     public TripController(UseCaseFetchAllTrip useCaseFetchAllTrip, 
+        IConfiguration configuration, TokenService tokenService,
         UseCaseCreateTrip useCaseCreateTrip, 
         UseCaseFetchTripById useCaseFetchTripById, 
         UseCaseDeleteTrip useCaseDeleteTrip, 
-        UseCaseUpdateTrip useCaseUpdateTrip)
+        UseCaseUpdateTrip useCaseUpdateTrip, 
+        UseCaseFetchTripByFilter useCaseFetchTripByFilter)
     {
+        _configuration = configuration;
+        _tokenService = tokenService;
         _useCaseFetchAllTrip = useCaseFetchAllTrip;
         _useCaseCreateTrip = useCaseCreateTrip;
         _useCaseFetchTripById = useCaseFetchTripById;
         _useCaseDeleteTrip = useCaseDeleteTrip;
         _useCaseUpdateTrip = useCaseUpdateTrip;
+        _useCaseFetchTripByFilter = useCaseFetchTripByFilter;
     }
     
     [HttpGet]
@@ -80,5 +89,31 @@ public class TripController : ControllerBase
     {
         dto.Id = id;
         return _useCaseUpdateTrip.Execute(dto) ? NoContent() : NotFound();
+    }
+    
+    private (string Id, string UserType) GetConnectedUserStatus()
+    {
+        var token = HttpContext.Request.Cookies[_configuration["JwtSettings:CookieName"]!]!;
+        return _tokenService.GetAuthCookieData(token);
+    }
+
+    [HttpGet("tripByFilter")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public ActionResult<IEnumerable<DtoOutputTrip>> GetUserByFilter([FromQuery] int userCount,
+        [FromQuery] string? searchValue)
+    {
+        searchValue ??= "";
+
+        try
+        {
+            var data = GetConnectedUserStatus();
+            return Ok(_useCaseFetchTripByFilter.Execute(Int32.Parse(data.Id), userCount, searchValue));
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new { error = e.Message });
+        }
     }
 }
