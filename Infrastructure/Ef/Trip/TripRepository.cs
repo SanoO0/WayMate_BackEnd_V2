@@ -1,14 +1,17 @@
-﻿using Infrastructure.Ef.DbEntities;
+﻿using Infrastructure.Ef.Booking;
+using Infrastructure.Ef.DbEntities;
 
 namespace Infrastructure.Ef.Trip;
 
 public class TripRepository : ITripRepository
 {
     private readonly WaymateContext _context;
+    private readonly BookingRepository _bookingRepository;
 
-    public TripRepository(WaymateContext context)
+    public TripRepository(WaymateContext context, BookingRepository bookingRepository)
     {
         _context = context;
+        _bookingRepository = bookingRepository;
     }
 
     public IEnumerable<DbTrip> FetchAll()
@@ -77,12 +80,27 @@ public class TripRepository : ITripRepository
         return true;
     }
 
-    public IEnumerable<DbTrip> FetchTripByFilter(int idDriver, string nameFilter, int userCount)
+    public IEnumerable<DbTrip> FetchTripByFilter(int idDriver, int userCount)
     {
         return _context.Trip
             .Where(trip => Equals(trip.IdDriver, idDriver))
             .AsEnumerable()
             .Reverse()
             .Take(userCount);
+    }
+
+    public IEnumerable<DbTrip> FetchTripByFilterPassenger(int idPassenger, int userCount)
+    {
+        var bookings = _bookingRepository.FetchBookingByFilter(idPassenger);
+
+        var tripIds = bookings.Select(b => b.IdTrip).Distinct();
+
+        var trips = _context.Trip
+            .Where(trip => tripIds.Contains(trip.Id))
+            .AsEnumerable()
+            .Reverse()
+            .Take(userCount);
+
+        return trips;
     }
 }

@@ -47,4 +47,11 @@ public class BookingRepository : IBookingRepository
 
         return true;
     }
+
+    public IEnumerable<DbBooking> FetchBookingByFilter(int idPassenger)
+    {
+        return _context.Booking
+            .Where(booking => Equals(booking.IdPassenger, idPassenger))
+            .AsEnumerable();
+    }
 }

@@ -60,12 +60,16 @@ builder.Services.AddScoped<UseCaseFetchTripById>();
 builder.Services.AddScoped<UseCaseDeleteTrip>();
 builder.Services.AddScoped<UseCaseUpdateTrip>();
 builder.Services.AddScoped<UseCaseFetchTripByFilter>();
+builder.Services.AddScoped<UseCaseFetchTripByFilterPassenger>();
+builder.Services.AddScoped<BookingRepository>();
+
 
 //Use Case Booking
 builder.Services.AddScoped<UseCaseFetchAllBooking>();
 builder.Services.AddScoped<UseCaseCreateBooking>();
 builder.Services.AddScoped<UseCaseFetchBookingById>();
 builder.Services.AddScoped<UseCaseDeleteBooking>();
+builder.Services.AddScoped<UseCaseFetchBookingByFilter>();
 
 //Use Case User
 builder.Services.AddScoped<UseCaseFetchAllUser>();

@@ -15,6 +15,7 @@ public class TripController : ControllerBase
     private readonly UseCaseDeleteTrip _useCaseDeleteTrip;
     private readonly UseCaseUpdateTrip _useCaseUpdateTrip;
     private readonly UseCaseFetchTripByFilter _useCaseFetchTripByFilter;
+    private readonly UseCaseFetchTripByFilterPassenger _useCaseFetchTripByFilterPassenger;
     private readonly IConfiguration _configuration;
     private readonly TokenService _tokenService;
 
@@ -24,7 +25,7 @@ public class TripController : ControllerBase
         UseCaseFetchTripById useCaseFetchTripById, 
         UseCaseDeleteTrip useCaseDeleteTrip, 
         UseCaseUpdateTrip useCaseUpdateTrip, 
-        UseCaseFetchTripByFilter useCaseFetchTripByFilter)
+        UseCaseFetchTripByFilter useCaseFetchTripByFilter, UseCaseFetchTripByFilterPassenger useCaseFetchTripByFilterPassenger)
     {
         _configuration = configuration;
         _tokenService = tokenService;
@@ -34,6 +35,7 @@ public class TripController : ControllerBase
         _useCaseDeleteTrip = useCaseDeleteTrip;
         _useCaseUpdateTrip = useCaseUpdateTrip;
         _useCaseFetchTripByFilter = useCaseFetchTripByFilter;
+        _useCaseFetchTripByFilterPassenger = useCaseFetchTripByFilterPassenger;
     }
     
     [HttpGet]
@@ -101,15 +103,29 @@ public class TripController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<IEnumerable<DtoOutputTrip>> GetUserByFilter([FromQuery] int userCount,
-        [FromQuery] string? searchValue)
+    public ActionResult<IEnumerable<DtoOutputTrip>> GetUserByFilter([FromQuery] int userCount)
     {
-        searchValue ??= "";
-
         try
         {
             var data = GetConnectedUserStatus();
-            return Ok(_useCaseFetchTripByFilter.Execute(Int32.Parse(data.Id), userCount, searchValue));
+            return Ok(_useCaseFetchTripByFilter.Execute(Int32.Parse(data.Id), userCount));
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new { error = e.Message });
+        }
+    }
+    
+    [HttpGet("tripByFilterPassenger")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public ActionResult<IEnumerable<DtoOutputTrip>> GetUserByFilterPassenger([FromQuery] int userCount)
+    {
+        try
+        {
+            var data = GetConnectedUserStatus();
+            return Ok(_useCaseFetchTripByFilterPassenger.Execute(Int32.Parse(data.Id), userCount));
         }
         catch (Exception e)
         {

@@ -1,4 +1,5 @@
-﻿using Application.UseCases.Booking;
+﻿using Application.Services.TokenJWT;
+using Application.UseCases.Booking;
 using Application.UseCases.Booking.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,17 +13,29 @@ public class BookingController: ControllerBase
     private readonly UseCaseFetchAllBooking _useCaseFetchAllBooking;
     private readonly UseCaseFetchBookingById _useCaseFetchBookingById;
     private readonly UseCaseDeleteBooking _useCaseDeleteBooking;
+    private readonly UseCaseFetchBookingByFilter _useCaseFetchBookingByFilter;
+    private readonly IConfiguration _configuration;
+    private readonly TokenService _tokenService;
     
 
 
-    public BookingController(UseCaseCreateBooking useCaseCreateBooking, UseCaseFetchAllBooking useCaseFetchAllBooking, UseCaseFetchBookingById useCaseFetchBookingById, UseCaseDeleteBooking useCaseDeleteBooking)
+    public BookingController(IConfiguration configuration, TokenService tokenService, UseCaseCreateBooking useCaseCreateBooking, UseCaseFetchAllBooking useCaseFetchAllBooking, UseCaseFetchBookingById useCaseFetchBookingById, UseCaseDeleteBooking useCaseDeleteBooking, UseCaseFetchBookingByFilter useCaseFetchBookingByFilter)
     {
+        _configuration = configuration;
+        _tokenService = tokenService;
         _useCaseCreateBooking = useCaseCreateBooking;
         _useCaseFetchAllBooking = useCaseFetchAllBooking;
         _useCaseFetchBookingById = useCaseFetchBookingById;
         _useCaseDeleteBooking = useCaseDeleteBooking;
+        _useCaseFetchBookingByFilter = useCaseFetchBookingByFilter;
     }
 
+    private (string Id, string UserType) GetConnectedUserStatus()
+    {
+        var token = HttpContext.Request.Cookies[_configuration["JwtSettings:CookieName"]!]!;
+        return _tokenService.GetAuthCookieData(token);
+    }
+    
     [HttpGet]
     public ActionResult<IEnumerable<DtoOutputBooking>> FetchAll()
     {
@@ -67,5 +80,22 @@ public class BookingController: ControllerBase
     {
         if(_useCaseDeleteBooking.Execute(id)) return NoContent();
         return NotFound();
+    }
+
+    [HttpGet("bookingByFilter")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public ActionResult<IEnumerable<DtoOutputBooking>> GetBookingByFilter()
+    {
+        try
+        {
+            var data = GetConnectedUserStatus();
+            return Ok(_useCaseFetchBookingByFilter.Execute(Int32.Parse(data.Id)));
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new { error = e.Message });
+        }
     }
 }
