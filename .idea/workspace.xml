@@ -5,17 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a236b219-eea5-4d62-b117-2dee546027af" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Application/UseCases/Booking/UseCaseFetchBookingByFilter.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Application/UseCases/Trip/UseCaseFetchTripByFilterPassenger.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Api/Controllers/BookingController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Api/Controllers/BookingController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Api/Controllers/TripController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Api/Controllers/TripController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Api/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/UseCases/Trip/UseCaseFetchTripByFilter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/UseCases/Trip/UseCaseFetchTripByFilter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Ef/Booking/BookingRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Ef/Booking/BookingRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Ef/Booking/IBookingRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Ef/Booking/IBookingRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Ef/Trip/ITripRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Ef/Trip/ITripRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Ef/Trip/TripRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Ef/Trip/TripRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Api/Controllers/Users/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Api/Controllers/Users/UserController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +29,7 @@
     "RunOnceActivity.OpenDatabaseViewOnStart": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "feature/ShowPassengerTravel",
+    "git-widget-placeholder": "develop",
     "last_opened_file_path": "C:/Users/mathi"
   },
   "keyToStringList": {

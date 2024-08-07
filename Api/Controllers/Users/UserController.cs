@@ -1,4 +1,5 @@
-﻿using Application.UseCases.Users.Admin;
+﻿using Application.Services.TokenJWT;
+using Application.UseCases.Users.Admin;
 using Application.UseCases.Users.Driver.Dto;
 using Application.UseCases.Users.User;
 using Application.UseCases.Users.User.Dto;
@@ -16,6 +17,8 @@ public class UserController : ControllerBase {
     private readonly UseCaseUpdateUser _useCaseUpdateUser;
     private readonly UseCaseCreateUser _useCaseCreateUser;
     private readonly UseCaseFetchUserByUsername _useCaseFetchUserByUsername;
+    private readonly IConfiguration _configuration;
+    private readonly TokenService _tokenService;
 
     public UserController(
         UseCaseFetchAllUser useCaseFetchAllUser,
@@ -23,7 +26,7 @@ public class UserController : ControllerBase {
         UseCaseFetchUserByEmail userCaseFetchUserByEmail,
         UseCaseDeleteUser useCaseDeleteUser,
         UseCaseUpdateUser useCaseUpdateUser, UseCaseCreateAdmin useCaseCreateAdmin, UseCaseCreateUser useCaseCreateUser, 
-        UseCaseFetchUserByUsername useCaseFetchUserByUsername) {
+        UseCaseFetchUserByUsername useCaseFetchUserByUsername, TokenService tokenService, IConfiguration configuration) {
         _useCaseFetchAllUser = useCaseFetchAllUser;
         _useCaseFetchUserById = useCaseFetchUserById;
         _userCaseFetchUserByEmail = userCaseFetchUserByEmail;
@@ -31,6 +34,14 @@ public class UserController : ControllerBase {
         _useCaseUpdateUser = useCaseUpdateUser;
         _useCaseCreateUser = useCaseCreateUser;
         _useCaseFetchUserByUsername = useCaseFetchUserByUsername;
+        _tokenService = tokenService;
+        _configuration = configuration;
+    }
+    
+    private (string Id, string UserType) GetConnectedUserStatus()
+    {
+        var token = HttpContext.Request.Cookies[_configuration["JwtSettings:CookieName"]!]!;
+        return _tokenService.GetAuthCookieData(token);
     }
 
     [HttpGet]
@@ -45,6 +56,22 @@ public class UserController : ControllerBase {
     public ActionResult<DtoOutputUser> FetchById(int id) {
         try {
             return  Ok(_useCaseFetchUserById.Execute(id));
+        }
+        catch (KeyNotFoundException e) {
+            return NotFound(new {
+                e.Message
+            });
+        }
+    }
+    
+    [HttpGet]
+    [Route("getConnectedUserData")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<DtoOutputUser> FetchById() {
+        try {
+            var data = GetConnectedUserStatus();
+            return  Ok(_useCaseFetchUserById.Execute(Int32.Parse(data.Id)));
         }
         catch (KeyNotFoundException e) {
             return NotFound(new {
