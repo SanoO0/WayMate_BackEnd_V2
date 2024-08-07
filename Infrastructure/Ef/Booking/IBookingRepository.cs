@@ -11,4 +11,6 @@ public interface IBookingRepository
     DbBooking Create(DateTime date, int reservedSeats, int idPassenger, int idTrip);
     
     bool Delete(int id);
+
+    IEnumerable<DbBooking> FetchBookingByFilter(int idPassenger);
 }

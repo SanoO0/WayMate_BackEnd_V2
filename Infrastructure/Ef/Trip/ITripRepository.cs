@@ -9,5 +9,7 @@ public interface ITripRepository
     DbTrip FetchById(int id);
     bool Delete(int id);
     bool Update(int id, int idDriver, bool smoke, float price , bool luggage, bool petFriendly, DateTime date, string driverMessage, bool airConditioning, string cityStartingPoint, string cityDestination, string plateNumber, string brand, string model);
-    IEnumerable<DbTrip> FetchTripByFilter(int idDriverToIgnore, string nameFilter, int userCount);
+    IEnumerable<DbTrip> FetchTripByFilter(int idDriver, int userCount);
+
+    IEnumerable<DbTrip> FetchTripByFilterPassenger(int idPassenger, int userCount);
 }
