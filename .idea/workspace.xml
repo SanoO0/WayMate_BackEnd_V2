@@ -5,12 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a236b219-eea5-4d62-b117-2dee546027af" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Application/UseCases/Trip/UseCaseFetchTripByFilter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/caa1bdd2-3ee6-4602-a8da-0d2fc39e5b5f.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/caa1bdd2-3ee6-4602-a8da-0d2fc39e5b5f.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Application/UseCases/Booking/UseCaseFetchBookingByFilter.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Application/UseCases/Trip/UseCaseFetchTripByFilterPassenger.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Api/Controllers/BookingController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Api/Controllers/BookingController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Api/Controllers/TripController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Api/Controllers/TripController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Api/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/UseCases/Utils/IUseCaseParameterizeQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/UseCases/Utils/IUseCaseParameterizeQuery.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/UseCases/Trip/UseCaseFetchTripByFilter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/UseCases/Trip/UseCaseFetchTripByFilter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Ef/Booking/BookingRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Ef/Booking/BookingRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Ef/Booking/IBookingRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Ef/Booking/IBookingRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Infrastructure/Ef/Trip/ITripRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Ef/Trip/ITripRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Infrastructure/Ef/Trip/TripRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Ef/Trip/TripRepository.cs" afterDir="false" />
     </list>
@@ -30,20 +33,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mathi&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "feature/ShowPassengerTravel",
+    "last_opened_file_path": "C:/Users/mathi"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql_aurora_aws&quot;,
-      &quot;sqlserver&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql_aurora_aws",
+      "sqlserver"
     ]
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
 </project>
