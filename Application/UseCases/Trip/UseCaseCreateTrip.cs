@@ -5,7 +5,7 @@ using Infrastructure.Ef.Trip;
 
 namespace Application.UseCases.Trip;
 
-public class UseCaseCreateTrip : IUseCaseWriter<DtoOutputTrip, DtoInputCreateTrip>
+public class UseCaseCreateTrip : IUseCaseParameterizeQuery<DtoOutputTrip, DtoInputCreateTrip, int>
 {
     private readonly ITripRepository _tripRepository;
     private readonly IMapper _mapper;
@@ -16,10 +16,10 @@ public class UseCaseCreateTrip : IUseCaseWriter<DtoOutputTrip, DtoInputCreateTri
         _mapper = mapper;
     }
 
-    public DtoOutputTrip Execute(DtoInputCreateTrip input)
+    public DtoOutputTrip Execute(DtoInputCreateTrip input, int idDriver)
     {
         var dbTrip = _tripRepository.Create(
-            input.IdDriver,
+            idDriver,
             input.Smoke,
             input.Price,
             input.Luggage,

@@ -4,7 +4,6 @@ namespace Application.UseCases.Trip.Dtos;
 
 public class DtoInputCreateTrip
 {
-    [Required] public int IdDriver { get; set; }
     [Required] public bool Smoke { get; set; }
     [Required] public float Price { get; set; }
     [Required] public bool Luggage { get; set; }

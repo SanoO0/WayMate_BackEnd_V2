@@ -63,16 +63,46 @@ public class TripController : ControllerBase
         return Ok(_useCaseFetchAllTrip.Execute());
     }
 
-    [HttpPost]
+    [HttpPost("create")]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public ActionResult<DtoOutputTrip> Create(DtoInputCreateTrip dto)
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public ActionResult<DtoOutputTrip> Create([FromBody] DtoInputCreateTrip dto)
     {
-        var output = _useCaseCreateTrip.Execute(dto);
-        return CreatedAtAction(
-            nameof(FetchById),
-            new { id = output.Id },
-            output
-        );
+        if (dto == null)
+        {
+            return BadRequest(new { error = "Invalid input: dto cannot be null" });
+        }
+        
+        Console.WriteLine($"Received request with DTO: {Newtonsoft.Json.JsonConvert.SerializeObject(dto)}");
+        
+        // Optionnel : Ajoutez des validations sur les propriétés de dto
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(new { error = "Invalid data: " + ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage });
+        }
+        
+        try
+        {
+            var data = GetConnectedUserStatus();
+            var output = _useCaseCreateTrip.Execute( dto,Int32.Parse(data.Id));
+            return CreatedAtAction(
+                nameof(FetchById),
+                new { id = data.Id },
+                output);
+        }
+        catch (FormatException fe)
+        {
+            return BadRequest(new { error = "Invalid format: " + fe.Message });
+        }
+        catch (ArgumentException ae)
+        {
+            return BadRequest(new { error = "Invalid argument: " + ae.Message });
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new { error = e.Message });
+        }
     }
     
     [HttpDelete("{id:int}")]
