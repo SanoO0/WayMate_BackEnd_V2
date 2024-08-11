@@ -61,8 +61,8 @@ builder.Services.AddScoped<UseCaseDeleteTrip>();
 builder.Services.AddScoped<UseCaseUpdateTrip>();
 builder.Services.AddScoped<UseCaseFetchTripByFilter>();
 builder.Services.AddScoped<UseCaseFetchTripByFilterPassenger>();
+builder.Services.AddScoped<UseCaseFetchTripByFilterCityAndDate>();
 builder.Services.AddScoped<BookingRepository>();
-
 
 //Use Case Booking
 builder.Services.AddScoped<UseCaseFetchAllBooking>();
