@@ -18,6 +18,7 @@ public class TripController : ControllerBase
     private readonly UseCaseFetchTripByFilterPassenger _useCaseFetchTripByFilterPassenger;
     private readonly IConfiguration _configuration;
     private readonly TokenService _tokenService;
+    private readonly UseCaseFetchTripByFilterCityAndDate _useCaseFetchTripByFilterCityAndDate;
 
     public TripController(UseCaseFetchAllTrip useCaseFetchAllTrip, 
         IConfiguration configuration, TokenService tokenService,
@@ -25,7 +26,9 @@ public class TripController : ControllerBase
         UseCaseFetchTripById useCaseFetchTripById, 
         UseCaseDeleteTrip useCaseDeleteTrip, 
         UseCaseUpdateTrip useCaseUpdateTrip, 
-        UseCaseFetchTripByFilter useCaseFetchTripByFilter, UseCaseFetchTripByFilterPassenger useCaseFetchTripByFilterPassenger)
+        UseCaseFetchTripByFilter useCaseFetchTripByFilter, 
+        UseCaseFetchTripByFilterPassenger useCaseFetchTripByFilterPassenger,
+        UseCaseFetchTripByFilterCityAndDate useCaseFetchTripByFilterCityAndDate)
     {
         _configuration = configuration;
         _tokenService = tokenService;
@@ -36,6 +39,7 @@ public class TripController : ControllerBase
         _useCaseUpdateTrip = useCaseUpdateTrip;
         _useCaseFetchTripByFilter = useCaseFetchTripByFilter;
         _useCaseFetchTripByFilterPassenger = useCaseFetchTripByFilterPassenger;
+        _useCaseFetchTripByFilterCityAndDate = useCaseFetchTripByFilterCityAndDate;
     }
     
     [HttpGet]
@@ -126,6 +130,21 @@ public class TripController : ControllerBase
         {
             var data = GetConnectedUserStatus();
             return Ok(_useCaseFetchTripByFilterPassenger.Execute(Int32.Parse(data.Id), userCount));
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new { error = e.Message });
+        }
+    }
+    
+    [HttpGet("tripByFilterCityAndDate")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public ActionResult<IEnumerable<DtoOutputTrip>> GetTripByFilterCityAndDate([FromQuery] string? cityStartingPoint, string? cityDestination, DateTime? date)
+    {
+        try
+        {
+            return Ok(_useCaseFetchTripByFilterCityAndDate.Execute(cityStartingPoint, cityDestination, date));
         }
         catch (Exception e)
         {
