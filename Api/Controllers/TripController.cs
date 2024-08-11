@@ -74,9 +74,6 @@ public class TripController : ControllerBase
             return BadRequest(new { error = "Invalid input: dto cannot be null" });
         }
         
-        Console.WriteLine($"Received request with DTO: {Newtonsoft.Json.JsonConvert.SerializeObject(dto)}");
-        
-        // Optionnel : Ajoutez des validations sur les propriétés de dto
         if (!ModelState.IsValid)
         {
             return BadRequest(new { error = "Invalid data: " + ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage });
@@ -114,13 +111,23 @@ public class TripController : ControllerBase
         return NotFound();
     }
     
-    [HttpPut("{id:int}")]
+    [HttpPut("update/{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult Update(int id, [FromBody] DtoInputUpdateTrip dto)
     {
-        dto.Id = id;
-        return _useCaseUpdateTrip.Execute(dto) ? NoContent() : NotFound();
+        try
+        {
+            var data = GetConnectedUserStatus();
+            return Ok(_useCaseUpdateTrip.Execute(dto, id ,Int32.Parse(data.Id)));
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new { error = e.Message });
+        }
     }
     
     private (string Id, string UserType) GetConnectedUserStatus()

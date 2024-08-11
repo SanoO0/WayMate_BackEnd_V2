@@ -5,8 +5,6 @@ namespace Application.UseCases.Trip.Dtos;
 
 public class DtoInputUpdateTrip
 {
-    [JsonIgnore] public int Id { get; set; }
-    [Required] public int IdDriver { get; set; }
     [Required] public bool Smoke { get; set; }
     [Required] public float Price { get; set; }
     [Required] public bool Luggage { get; set; }
