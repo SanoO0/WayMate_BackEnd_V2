@@ -103,4 +103,22 @@ public class TripRepository : ITripRepository
 
         return trips;
     }
+
+    public IEnumerable<DbTrip> FetchTripByFilterCityAndDate(string? cityStartingPoint, string? cityDestination, DateTime? date) {
+        var query = _context.Trip.AsQueryable();
+
+        if (!string.IsNullOrEmpty(cityStartingPoint)) {
+            query = query.Where(trip => trip.CityStartingPoint == cityStartingPoint);
+        }
+
+        if (!string.IsNullOrEmpty(cityDestination)) {
+            query = query.Where(trip => trip.CityDestination == cityDestination);
+        }
+
+        if (date.HasValue) {
+            query = query.Where(trip => trip.Date == date.Value);
+        }
+
+        return query.AsEnumerable();
+    }
 }

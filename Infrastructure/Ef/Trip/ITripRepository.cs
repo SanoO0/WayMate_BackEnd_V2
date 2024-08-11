@@ -1,4 +1,5 @@
-﻿using Infrastructure.Ef.DbEntities;
+﻿using System.Collections;
+using Infrastructure.Ef.DbEntities;
 
 namespace Infrastructure.Ef.Trip;
 
@@ -12,4 +13,5 @@ public interface ITripRepository
     IEnumerable<DbTrip> FetchTripByFilter(int idDriver, int userCount);
 
     IEnumerable<DbTrip> FetchTripByFilterPassenger(int idPassenger, int userCount);
+    IEnumerable<DbTrip> FetchTripByFilterCityAndDate(string? cityStartingPoint, string? cityDestination, DateTime? date);
 }
