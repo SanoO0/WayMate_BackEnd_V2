@@ -93,12 +93,14 @@ public class TripRepository : ITripRepository
 
     public IEnumerable<DbTrip> FetchTripByFilterPassenger(int idPassenger, int userCount)
     {
+        var today = DateTime.Today;
+        
         var bookings = _bookingRepository.FetchBookingByFilter(idPassenger);
 
         var tripIds = bookings.Select(b => b.IdTrip).Distinct();
 
         var trips = _context.Trip
-            .Where(trip => tripIds.Contains(trip.Id))
+            .Where(trip => tripIds.Contains(trip.Id) && trip.Date >= today)
             .AsEnumerable()
             .Reverse()
             .Take(userCount);
