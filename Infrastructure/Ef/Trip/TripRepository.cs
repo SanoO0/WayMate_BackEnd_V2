@@ -82,8 +82,10 @@ public class TripRepository : ITripRepository
 
     public IEnumerable<DbTrip> FetchTripByFilter(int idDriver, int userCount)
     {
+        var today = DateTime.Today;
+        
         return _context.Trip
-            .Where(trip => Equals(trip.IdDriver, idDriver))
+            .Where(trip => Equals(trip.IdDriver, idDriver) && trip.Date >= today)
             .AsEnumerable()
             .Reverse()
             .Take(userCount);
