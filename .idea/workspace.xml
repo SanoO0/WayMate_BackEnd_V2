@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a236b219-eea5-4d62-b117-2dee546027af" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Api/Controllers/TripController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Api/Controllers/TripController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/UseCases/Trip/Dtos/DtoInputUpdateTrip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/UseCases/Trip/Dtos/DtoInputUpdateTrip.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/UseCases/Trip/UseCaseUpdateTrip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/UseCases/Trip/UseCaseUpdateTrip.cs" afterDir="false" />
-    </list>
+    <list default="true" id="a236b219-eea5-4d62-b117-2dee546027af" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,7 +26,7 @@
     "RunOnceActivity.OpenDatabaseViewOnStart": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "feature/ModifyTrip",
+    "git-widget-placeholder": "develop",
     "last_opened_file_path": "C:/Users/mathi"
   },
   "keyToStringList": {

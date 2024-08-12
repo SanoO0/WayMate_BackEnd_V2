@@ -30,6 +30,7 @@ public class Mapper : Profile
         CreateMap<DbUser, DtoOutputUser>();
         CreateMap<DbUser, User>();
         CreateMap<DbUser, DtoOutputUser>();
+        CreateMap<DbUser, DtoOutputPartialUser>();
         
         
         //Admin

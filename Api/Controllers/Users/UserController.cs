@@ -17,6 +17,7 @@ public class UserController : ControllerBase {
     private readonly UseCaseUpdateUser _useCaseUpdateUser;
     private readonly UseCaseCreateUser _useCaseCreateUser;
     private readonly UseCaseFetchUserByUsername _useCaseFetchUserByUsername;
+    private readonly UseCaseFetchUserPartialById _useCaseFetchUserPartialById;
     private readonly IConfiguration _configuration;
     private readonly TokenService _tokenService;
 
@@ -26,7 +27,7 @@ public class UserController : ControllerBase {
         UseCaseFetchUserByEmail userCaseFetchUserByEmail,
         UseCaseDeleteUser useCaseDeleteUser,
         UseCaseUpdateUser useCaseUpdateUser, UseCaseCreateAdmin useCaseCreateAdmin, UseCaseCreateUser useCaseCreateUser, 
-        UseCaseFetchUserByUsername useCaseFetchUserByUsername, TokenService tokenService, IConfiguration configuration) {
+        UseCaseFetchUserByUsername useCaseFetchUserByUsername, TokenService tokenService, IConfiguration configuration, UseCaseFetchUserPartialById useCaseFetchUserPartialById) {
         _useCaseFetchAllUser = useCaseFetchAllUser;
         _useCaseFetchUserById = useCaseFetchUserById;
         _userCaseFetchUserByEmail = userCaseFetchUserByEmail;
@@ -36,6 +37,7 @@ public class UserController : ControllerBase {
         _useCaseFetchUserByUsername = useCaseFetchUserByUsername;
         _tokenService = tokenService;
         _configuration = configuration;
+        _useCaseFetchUserPartialById = useCaseFetchUserPartialById;
     }
     
     private (string Id, string UserType) GetConnectedUserStatus()
@@ -56,6 +58,21 @@ public class UserController : ControllerBase {
     public ActionResult<DtoOutputUser> FetchById(int id) {
         try {
             return  Ok(_useCaseFetchUserById.Execute(id));
+        }
+        catch (KeyNotFoundException e) {
+            return NotFound(new {
+                e.Message
+            });
+        }
+    }
+    
+    [HttpGet]
+    [Route("partialUser/{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<DtoOutputPartialUser> FetchByIdPartialData(int id) {
+        try {
+            return  Ok(_useCaseFetchUserPartialById.Execute(id));
         }
         catch (KeyNotFoundException e) {
             return NotFound(new {

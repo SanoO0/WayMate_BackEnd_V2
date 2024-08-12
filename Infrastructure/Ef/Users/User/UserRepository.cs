@@ -21,6 +21,13 @@ public class UserRepository : IUserRepository {
         return user;
     }
 
+    public DbUser FetchByIdPartial(int id)
+    {
+        var user = _context.Users.FirstOrDefault(u => u.Id == id);
+        if (user == null) throw new KeyNotFoundException($"User with id {id} has not been found");
+        return user;
+    }
+
     public DbUser FetchByEmail(string email) {
         var user = _context.Users.FirstOrDefault(u => u.Email == email);
         if (user == null) throw new KeyNotFoundException($"User with email {email} has not been found");
